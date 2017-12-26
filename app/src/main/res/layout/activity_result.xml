@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.lifeistech.android.weatherapi.ResultActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/WeatherResult"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/holo_red_light"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="Weather Result"
+                android:textColor="@android:color/black"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/LinearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/first"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_weight="1">
+
+                    <LinearLayout
+                        android:id="@+id/First"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:padding="5dp"
+                        app:layout_constraintTop_toBottomOf="@+id/areaInfo"
+                        tools:layout_editor_absoluteX="8dp">
+
+                        <TextView
+                            android:id="@+id/date1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="date1"
+                            android:textColor="@android:color/black"
+                            android:textSize="17sp"
+                            app:layout_constraintDimensionRatio="h,1:1"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:layout_editor_absoluteX="32dp" />
+
+                        <TextView
+                            android:id="@+id/forecasts1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:gravity="center"
+                            android:text="forecasts1"
+                            android:textColor="@android:color/black"
+                            android:textSize="17sp"
+                            app:layout_constraintTop_toBottomOf="@+id/date1"
+                            tools:layout_editor_absoluteX="32dp" />
+
+                        <ImageView
+                            android:id="@+id/image1"
+                            android:layout_width="match_parent"
+                            android:layout_height="31dp"
+                            android:layout_marginTop="8dp"
+                            app:layout_constraintTop_toBottomOf="@+id/forecasts1"
+                            app:srcCompat="@drawable/common_google_signin_btn_icon_dark"
+                            tools:layout_editor_absoluteX="32dp" />
+
+                        <LinearLayout
+                            android:id="@+id/temperature1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:orientation="horizontal"
+                            app:layout_constraintTop_toBottomOf="@+id/image1"
+                            tools:layout_editor_absoluteX="32dp">
+
+                            <TextView
+                                android:id="@+id/max1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="max1"
+                                android:textColor="@android:color/holo_red_dark"
+                                android:textSize="16sp" />
+
+                            <TextView
+                                android:id="@+id/min1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="min1"
+                                android:textColor="@android:color/holo_blue_dark"
+                                android:textSize="16sp" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/second"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_weight="1">
+
+                    <LinearLayout
+                        android:id="@+id/Second"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:padding="5dp"
+                        tools:layout_editor_absoluteX="8dp"
+                        tools:layout_editor_absoluteY="8dp">
+
+                        <TextView
+                            android:id="@+id/date2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="date2"
+                            android:textColor="@android:color/black"
+                            android:textSize="17sp"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:layout_editor_absoluteX="24dp" />
+
+                        <TextView
+                            android:id="@+id/forecasts2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:gravity="center"
+                            android:text="forecasts2"
+                            android:textColor="@android:color/black"
+                            android:textSize="17sp"
+                            app:layout_constraintTop_toBottomOf="@+id/date3"
+                            tools:layout_editor_absoluteX="24dp" />
+
+                        <ImageView
+                            android:id="@+id/image2"
+                            android:layout_width="match_parent"
+                            android:layout_height="31dp"
+                            android:layout_marginTop="8dp"
+                            app:layout_constraintTop_toBottomOf="@+id/forecasts3"
+                            app:srcCompat="@drawable/common_google_signin_btn_icon_dark"
+                            tools:layout_editor_absoluteX="24dp" />
+
+                        <LinearLayout
+                            android:id="@+id/temperature2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:orientation="horizontal"
+                            app:layout_constraintTop_toBottomOf="@+id/image2"
+                            tools:layout_editor_absoluteX="24dp">
+
+                            <TextView
+                                android:id="@+id/max2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="max2"
+                                android:textColor="@android:color/holo_red_dark"
+                                android:textSize="16sp" />
+
+                            <TextView
+                                android:id="@+id/min2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="min2"
+                                android:textColor="@android:color/holo_blue_dark"
+                                android:textSize="16sp"
+                                tools:layout_editor_absoluteX="81dp"
+                                tools:layout_editor_absoluteY="206dp" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/third"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_weight="1">
+
+                    <LinearLayout
+                        android:id="@+id/Third"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:padding="5dp"
+                        tools:layout_editor_absoluteX="8dp"
+                        tools:layout_editor_absoluteY="8dp">
+
+                        <TextView
+                            android:id="@+id/date3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="date3"
+                            android:textColor="@android:color/black"
+                            android:textSize="17sp"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:layout_editor_absoluteX="24dp" />
+
+                        <TextView
+                            android:id="@+id/forecasts3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:gravity="center"
+                            android:text="forecasts3"
+                            android:textColor="@android:color/black"
+                            android:textSize="17sp"
+                            app:layout_constraintTop_toBottomOf="@+id/date3"
+                            tools:layout_editor_absoluteX="24dp" />
+
+                        <ImageView
+                            android:id="@+id/image3"
+                            android:layout_width="match_parent"
+                            android:layout_height="31dp"
+                            android:layout_marginTop="8dp"
+                            app:layout_constraintTop_toBottomOf="@+id/forecasts3"
+                            app:srcCompat="@drawable/common_google_signin_btn_icon_dark"
+                            tools:layout_editor_absoluteX="24dp" />
+
+                        <LinearLayout
+                            android:id="@+id/temperature2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:orientation="horizontal"
+                            app:layout_constraintTop_toBottomOf="@+id/image2"
+                            tools:layout_editor_absoluteX="24dp">
+
+                            <TextView
+                                android:id="@+id/max3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="max3"
+                                android:textColor="@android:color/holo_red_dark"
+                                android:textSize="16sp" />
+
+                            <TextView
+                                android:id="@+id/min3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="min3"
+                                android:textColor="@android:color/holo_blue_dark"
+                                android:textSize="16sp"
+                                tools:layout_editor_absoluteX="81dp"
+                                tools:layout_editor_absoluteY="206dp" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+
+            </LinearLayout>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/areaInfo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:text="areaInfo"
+                        android:textColor="@android:color/black"
+                        android:textSize="15sp"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/WeatherResult" />
+
+                    <TextView
+                        android:id="@+id/point"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="1"
+                        android:text="ポイント予報"
+                        android:textColor="@android:color/black"
+                        android:textSize="17sp" />
+
+                    <TextView
+                        android:id="@+id/description"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:lineSpacingMultiplier="1.2"
+                        android:text="description"
+                        android:textColor="@android:color/black"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/publicTime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="publicTime"
+                        android:textColor="@android:color/black"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="8dp">
+
+                <ListView
+                    android:id="@+id/listview"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="visible" />
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="16dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/provider"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="provider"
+                        android:textColor="@android:color/black"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/copyright"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="copyright"
+                        android:textColor="@android:color/black"
+                        android:textSize="12sp" />
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</android.support.constraint.ConstraintLayout>
+
