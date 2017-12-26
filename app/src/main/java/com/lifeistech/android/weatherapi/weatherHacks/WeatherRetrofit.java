@@ -21,11 +21,11 @@ public class WeatherRetrofit extends WeatherConnect {
 
     public interface WeatherApiService {
         @GET("/v1")
-        public void search(@Query("City") int cityCode,
+        public void search(@Query("city") String cityCode,
                            Callback<Response> callback);
     }
 
-    public void search(final int cityCode, final WeatherSearchListener listener) {
+    public void search(final String cityCode, final WeatherSearchListener listener) {
         RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint(REQUEST_DOMAIN)
                 .setLogLevel(RestAdapter.LogLevel.FULL)

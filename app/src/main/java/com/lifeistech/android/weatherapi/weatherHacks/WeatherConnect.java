@@ -18,6 +18,6 @@ public abstract class WeatherConnect implements Serializable {
 
     }
 
-    public abstract void search(final int cityCode, final WeatherSearchListener listener);
+    public abstract void search(final String cityCode, final WeatherSearchListener listener);
 
 }

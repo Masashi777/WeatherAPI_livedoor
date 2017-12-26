@@ -12,7 +12,7 @@ public class Weather {
 
     }
 
-    public void search(WeatherConnect connect, int cityCode, final WeatherConnect.WeatherSearchListener listener) {
+    public void search(WeatherConnect connect, String cityCode, final WeatherConnect.WeatherSearchListener listener) {
 
         connect.search(cityCode, listener);
 

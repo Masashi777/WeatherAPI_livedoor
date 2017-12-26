@@ -1,11 +1,16 @@
 package com.lifeistech.android.weatherapi;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -22,7 +27,7 @@ import java.util.regex.Pattern;
 public class ResultActivity extends AppCompatActivity {
 
     // UI
-    private int cityCode;
+    private String cityCode;
 
     // Layout
     // forecast
@@ -38,9 +43,10 @@ public class ResultActivity extends AppCompatActivity {
     private ListView listView;
 
     // コネクタ
-    WeatherConnect connect = new WeatherRetrofit();
+    private WeatherConnect connect = new WeatherRetrofit();
 
-    final Weather weather = new Weather();
+    private final Weather weather = new Weather();
+    private WeatherResponse weatherResponse;
 
 
     @Override
@@ -83,13 +89,33 @@ public class ResultActivity extends AppCompatActivity {
 
         // CityCodeの読み取り
         Intent intent = getIntent();
-        cityCode = intent.getIntExtra("CityCode", 0);
+        cityCode = intent.getStringExtra("CityCode");
         Log.d("CityCode", String.valueOf(cityCode));
 
-        search();
+        // クエリ実行
+        search(new SearchListener() {
+            @Override
+            public void finish() {
+                // ListViewの高さ変更
+                setListViewHeightBasedOnChildren(listView);
+            }
+        });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(weatherResponse.getPinpointLocationList().get(position).getLink()));
+                startActivity(intent);
+            }
+        });
+
     }
 
-    public void search() {
+    private interface SearchListener {
+        public void finish();
+    }
+
+    public void search(final SearchListener listener) {
 
         weather.search(connect, cityCode, new WeatherConnect.WeatherSearchListener() {
             @Override
@@ -103,7 +129,7 @@ public class ResultActivity extends AppCompatActivity {
 
                 // String(中身はjson形式)から WeatherResponse型への変換
                 Gson gson = new Gson();
-                WeatherResponse weatherResponse = gson.fromJson(json, WeatherResponse.class);
+                weatherResponse = gson.fromJson(json, WeatherResponse.class);
 
                 Log.d("tag", json);
                 Log.d("TAG", weatherResponse.getTitle());
@@ -133,11 +159,13 @@ public class ResultActivity extends AppCompatActivity {
                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1);
                 for (int i = 0; i < weatherResponse.getPinpointLocationList().size(); i++) {
                     adapter.add(weatherResponse.getPinpointLocationList().get(i).getName());
+                    Log.d("TAG", weatherResponse.getPinpointLocationList().get(i).getName());
                 }
                 listView.setAdapter(adapter);
 
 
                 Log.d("TAG", weatherResponse.getTitle());
+                listener.finish();
 
             }
 
@@ -147,4 +175,27 @@ public class ResultActivity extends AppCompatActivity {
             }
         });
     }
+
+
+    // リスト数に応じてリストの高さを変更
+    private void setListViewHeightBasedOnChildren(ListView listView) {
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter == null) {
+            return;
+        }
+        int totalHeight = listView.getPaddingTop() + listView.getPaddingBottom();
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            View listItem = listAdapter.getView(i, null, listView);
+            if (listItem instanceof ViewGroup) {
+                listItem.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            }
+            listItem.measure(0, 0);
+            totalHeight += listItem.getMeasuredHeight();
+        }
+
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+        listView.setLayoutParams(params);
+    }
+
 }

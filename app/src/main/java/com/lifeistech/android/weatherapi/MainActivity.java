@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
 
                 if (activeCity != null) {
                     Intent intent = new Intent(getApplicationContext(), ResultActivity.class);
-                    intent.putExtra("citycode", activeCity.getId());
+                    intent.putExtra("CityCode", activeCity.getId());
                     startActivity(intent);
 
                 } else {
@@ -168,11 +168,11 @@ public class MainActivity extends AppCompatActivity {
                                     // city
                                     City city = new City();
                                     city.setTitle(parser.getAttributeValue(null, "title"));
-                                    city.setId(Integer.parseInt(parser.getAttributeValue(null, "id")));
+                                    city.setId(parser.getAttributeValue(null, "id"));
                                     city.setSource(parser.getAttributeValue(null, "source"));
 
                                     cityList.add(city);
-                                    Log.d("ADD CITY", city.title);
+                                    Log.d("ADD CITY", city.title + city.id);
 
                                 }
 
@@ -181,8 +181,6 @@ public class MainActivity extends AppCompatActivity {
                                     // pref
                                     pref.setCityList(cityList);
                                     prefList.add(pref);
-//                                    pref = null;
-//                                    prefList = null;
                                     Log.d("ADD PREF", pref.title);
                                     break;
                                 }
@@ -219,11 +217,11 @@ public class MainActivity extends AppCompatActivity {
 
         load = true;
 
-        Log.e("exp", prefList.get(40).title + prefList.get(40).getCityList().get(0).getTitle());
+//        Log.e("exp", prefList.get(40).title + prefList.get(40).getCityList().get(0).getTitle());
 
         ArrayAdapter<String> prefAdapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1);
         for (int i = 0; i < prefList.size(); i++) {
-            prefAdapter.add(prefList.get(i).getTitle());
+            prefAdapter.add(prefList.get(i).getTitle().toString());
         }
         prefSpinner.setAdapter(prefAdapter);
 
