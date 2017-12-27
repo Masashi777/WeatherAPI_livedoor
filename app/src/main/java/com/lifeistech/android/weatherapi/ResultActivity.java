@@ -1,7 +1,15 @@
 package com.lifeistech.android.weatherapi;
 
+import android.content.ComponentName;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
+import android.support.customtabs.CustomTabsCallback;
+import android.support.customtabs.CustomTabsClient;
+import android.support.customtabs.CustomTabsIntent;
+import android.support.customtabs.CustomTabsServiceConnection;
+import android.support.customtabs.CustomTabsSession;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -48,6 +56,11 @@ public class ResultActivity extends AppCompatActivity {
     private final Weather weather = new Weather();
     private WeatherResponse weatherResponse;
 
+    private CustomTabsSession mCustomTabsSession;
+    private CustomTabsClient mClient;
+    private CustomTabsServiceConnection mConnection;
+    private String mPackageNameToBind;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +98,7 @@ public class ResultActivity extends AppCompatActivity {
         copyright = (TextView) findViewById(R.id.copyright);
         provider = (TextView) findViewById(R.id.provider);
 
-        listView =(ListView) findViewById(R.id.listview);
+        listView = (ListView) findViewById(R.id.listview);
 
         // CityCodeの読み取り
         Intent intent = getIntent();
@@ -104,11 +117,25 @@ public class ResultActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(weatherResponse.getPinpointLocationList().get(position).getLink()));
-                startActivity(intent);
+//                CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+//                builder.setToolbarColor(Color.BLUE).setShowTitle(true);
+                CustomTabsIntent tabsIntent = new CustomTabsIntent.Builder()
+                        .setShowTitle(true)
+                        .setToolbarColor(ContextCompat.getColor(getParent(), R.color.colorPrimary))
+//                        .setStartAnimations(getActivity(), R.anim.slide_in_right, R.anim.slide_out_left)
+                        .setExitAnimations(getParent(), android.R.anim.slide_in_left, android.R.anim.slide_out_right)
+                .build();
+
+                // Chromeの起動
+                tabsIntent.launchUrl(getParent(), Uri.parse(weatherResponse.getPinpointLocationList().get(position).getLink()));
+
+//                CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+//
+//                customTabsIntent.launchUrl(getParent(), Uri.parse(weatherResponse.getPinpointLocationList().get(position).getLink()));
+
             }
         });
-
+//        bindCustomTabsService();
     }
 
     private interface SearchListener {
@@ -196,6 +223,55 @@ public class ResultActivity extends AppCompatActivity {
         ViewGroup.LayoutParams params = listView.getLayoutParams();
         params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
         listView.setLayoutParams(params);
+    }
+
+
+//    private void bindCustomTabsService() {
+//        if (mClient != null) return;
+//
+//        //　接続先はChromeのバージョンによって異なる
+//        // "com.android.chrome", "com.chrome.beta",
+//        // "com.chrome.dev", "com.google.android.apps.chrome"
+////        mPackageNameToBind = CustomTabsHelper.getPackageNameToUse(this);
+//        if (mPackageNameToBind == null) return;
+//
+//        // ブラウザ側と接続したときの処理
+//        mConnection = new CustomTabsServiceConnection() {
+//            @Override
+//            public void onCustomTabsServiceConnected(ComponentName name,
+//                                                     CustomTabsClient client) {
+//                // セッションを確立する
+//                mClient = client;
+//                mCustomTabsSession = mClient.newSession(new CustomTabsCallback() {
+//                    @Override
+//                    public void onNavigationEvent(int navigationEvent, Bundle extras) {
+//                        Log.w("TAG", "onNavigationEvent: Code = " + navigationEvent);
+//                    }
+//                });
+//            }
+//            @Override
+//            public void onServiceDisconnected(ComponentName name) {
+//                mClient = null;
+//            }
+//        };
+//
+//        // バインドの開始
+//        CustomTabsClient.bindCustomTabsService(this,
+//                mPackageNameToBind,
+//                mConnection);
+//    }
+//
+//    private void unbindCustomTabsService() {
+//        if (mConnection == null) return;
+//        unbindService(mConnection);
+//        mClient = null;
+//        mCustomTabsSession = null;
+//    }
+
+    @Override
+    protected void onDestroy() {
+//        unbindCustomTabsService();
+        super.onDestroy();
     }
 
 }

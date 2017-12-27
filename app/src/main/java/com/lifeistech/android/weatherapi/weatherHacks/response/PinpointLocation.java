@@ -1,10 +1,12 @@
 package com.lifeistech.android.weatherapi.weatherHacks.response;
 
+import java.io.Serializable;
+
 /**
  * Created by Masashi Hamaguchi on 2017/05/06.
  */
 
-public class PinpointLocation {
+public class PinpointLocation implements Serializable {
 
     public String link;
     public String name;

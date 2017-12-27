@@ -1,7 +1,6 @@
 package com.lifeistech.android.weatherapi;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -61,8 +60,16 @@ public class MainActivity extends AppCompatActivity {
         getCityClass = new GetCityClass();
         getCityClass.setValue(rssURL, new GetCityCallbackListener() {
             @Override
-            public void onSuccess(String success) {
-                parseCity(success);
+            public void onSuccess(List<Pref> mPrefList, String title, String link) {
+                prefList = mPrefList;
+
+                // Spinnerの設定
+                ArrayAdapter<String> prefAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item);
+                prefAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                for (int i = 0; i < prefList.size(); i++) {
+                    prefAdapter.add(prefList.get(i).getTitle());
+                }
+                prefSpinner.setAdapter(prefAdapter);
             }
 
             @Override
@@ -71,6 +78,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         getCityClass.execute();
+
+
 
 
         if (!load) {
@@ -84,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
                 // citySpinnerのセット
-                ArrayAdapter<String> cityAdapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1);
+                ArrayAdapter<String> cityAdapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_spinner_item);
                 for (int i = 0; i < prefList.get(position).getCityList().size(); i++) {
                     cityAdapter.add(prefList.get(position).getCityList().get(i).getTitle());
                 }
@@ -134,96 +143,90 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void parseCity(String rssString) {
+//    private void parseCity(String rssString) {
 
-        // XMLパース
-        try {
-            XmlPullParser parser = Xml.newPullParser();
-            parser.setInput(new StringReader(rssString));
-            int eventType = parser.getEventType();
-
-            while (eventType != XmlPullParser.END_DOCUMENT) {
-
-                if (eventType == XmlPullParser.START_TAG) {
-
-                    if (parser.getName().equals("pref")) {
-                        // pref
-                        Pref pref = new Pref();
-                        pref.setTitle(parser.getAttributeValue(null, "title"));
-
-                        List<City> cityList = new ArrayList<City>();
-
-                        while (true) {
-
-                            if (eventType == XmlPullParser.START_TAG) {
-                                if (parser.getName().equals("warn")) {
-                                    // warn
-                                    Warn warn = new Warn();
-                                    warn.setTitle(parser.getAttributeValue(null, "title"));
-                                    warn.setSource(parser.getAttributeValue(null, "source"));
-                                    pref.setWarn(warn);
-                                    Log.d("ADD WARN", warn.title);
-
-                                } else if (parser.getName().equals("city")) {
-                                    // city
-                                    City city = new City();
-                                    city.setTitle(parser.getAttributeValue(null, "title"));
-                                    city.setId(parser.getAttributeValue(null, "id"));
-                                    city.setSource(parser.getAttributeValue(null, "source"));
-
-                                    cityList.add(city);
-                                    Log.d("ADD CITY", city.title + city.id);
-
-                                }
-
-                            } else if (eventType == XmlPullParser.END_TAG) {
-                                if (parser.getName().equals("pref")) {
-                                    // pref
-                                    pref.setCityList(cityList);
-                                    prefList.add(pref);
-                                    Log.d("ADD PREF", pref.title);
-                                    break;
-                                }
-                            }
-
-                            eventType = parser.next();
-                        }
-
-                    } else if (parser.getName().equals("ldWeather:source")) {
-                        title = parser.getAttributeValue(null, "title");
-                        link = parser.getAttributeValue(null, "link");
-                    }
-
-                } else if (eventType == XmlPullParser.END_TAG) {
-
-                }
-
-                eventType = parser.next();
-
-            }
-
-        } catch (XmlPullParserException e) {
-            e.printStackTrace();
-
-            Log.e("Tag", "ParseError");
-            load = false;
-
-        } catch (IOException e) {
-            e.printStackTrace();
-
-            Log.e("Tag", "ParseError");
-            load = false;
-        }
-
-        load = true;
+//        // XMLパース
+//        try {
+//            XmlPullParser parser = Xml.newPullParser();
+//            parser.setInput(new StringReader(rssString));
+//            int eventType = parser.getEventType();
+//
+//            while (eventType != XmlPullParser.END_DOCUMENT) {
+//
+//                if (eventType == XmlPullParser.START_TAG) {
+//
+//                    if (parser.getName().equals("pref")) {
+//                        // pref
+//                        Pref pref = new Pref();
+//                        pref.setTitle(parser.getAttributeValue(null, "title"));
+//
+//                        List<City> cityList = new ArrayList<City>();
+//
+//                        while (true) {
+//
+//                            if (eventType == XmlPullParser.START_TAG) {
+//                                if (parser.getName().equals("warn")) {
+//                                    // warn
+//                                    Warn warn = new Warn();
+//                                    warn.setTitle(parser.getAttributeValue(null, "title"));
+//                                    warn.setSource(parser.getAttributeValue(null, "source"));
+//                                    pref.setWarn(warn);
+//                                    Log.d("ADD WARN", warn.title);
+//
+//                                } else if (parser.getName().equals("city")) {
+//                                    // city
+//                                    City city = new City();
+//                                    city.setTitle(parser.getAttributeValue(null, "title"));
+//                                    city.setId(parser.getAttributeValue(null, "id"));
+//                                    city.setSource(parser.getAttributeValue(null, "source"));
+//
+//                                    cityList.add(city);
+//                                    Log.d("ADD CITY", city.title + city.id);
+//
+//                                }
+//
+//                            } else if (eventType == XmlPullParser.END_TAG) {
+//                                if (parser.getName().equals("pref")) {
+//                                    // pref
+//                                    pref.setCityList(cityList);
+//                                    prefList.add(pref);
+//                                    Log.d("ADD PREF", pref.title);
+//                                    break;
+//                                }
+//                            }
+//
+//                            eventType = parser.next();
+//                        }
+//
+//                    } else if (parser.getName().equals("ldWeather:source")) {
+//                        title = parser.getAttributeValue(null, "title");
+//                        link = parser.getAttributeValue(null, "link");
+//                    }
+//
+//                } else if (eventType == XmlPullParser.END_TAG) {
+//
+//                }
+//
+//                eventType = parser.next();
+//
+//            }
+//
+//        } catch (XmlPullParserException e) {
+//            e.printStackTrace();
+//
+//            Log.e("Tag", "ParseError");
+//            load = false;
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//
+//            Log.e("Tag", "ParseError");
+//            load = false;
+//        }
+//
+//        load = true;
 
 //        Log.e("exp", prefList.get(40).title + prefList.get(40).getCityList().get(0).getTitle());
 
-        ArrayAdapter<String> prefAdapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1);
-        for (int i = 0; i < prefList.size(); i++) {
-            prefAdapter.add(prefList.get(i).getTitle().toString());
-        }
-        prefSpinner.setAdapter(prefAdapter);
-
-    }
+//    }
 }
